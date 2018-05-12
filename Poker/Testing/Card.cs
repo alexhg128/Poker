@@ -27,6 +27,72 @@ namespace Testing
 
         public static Mano HandLevel(List<Card> cards)
         {
+            List<int> a = new List<int>();
+            foreach (Card c in cards) { a.Add(c.Valor); }
+            if (a.Distinct().Count() == 2)
+            {
+                List<Card> repetidas = cards.GroupBy(x => x.Valor).Where(x => x.Count() == 4).SelectMany(G => G).ToList();
+
+                if (repetidas.Count() == 4)
+                {
+                    return Mano.Poker;
+                }
+                else
+                {
+                    return Mano.Full;
+                }
+
+            }
+            else if (a.Distinct().Count() == 3)
+            {
+
+                List<Card> repetidas = cards.GroupBy(x => x.Valor).Where(x => x.Count() == 3).SelectMany(G => G).ToList();
+
+                if (repetidas.Count() == 3)
+                {
+                    return Mano.Trio;
+                }
+                else
+                {
+                    return Mano.DoblePareja;
+                }
+
+            }
+            else if (a.Distinct().Count() == 4)
+            {
+
+                return Mano.Pareja;
+
+            }
+            else if (cards.FindAll(x => x.palo == cards.ElementAt(0).palo).Count == 5)
+            {
+                if (MaxCard(cards).valor == 1 && MinCard(cards).valor == 10)
+                {
+                    return Mano.FlorImperial;
+                }
+                else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4
+                    || (MaxCard(cards).Valor == 1) && (AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 3)
+                {
+                    return Mano.EscaleraColor;
+                }
+                else
+                {
+                    return Mano.Color;
+                }
+            }
+            else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4
+                || (MaxCard(cards).Valor == 1) && (AbsoluteMaxCard(cards).valor - MinCard(cards).valor) == 3)
+            {
+                return Mano.Escalera;
+            }
+            else
+            {
+                return Mano.CartaAlta;
+            }
+        }
+
+        public static Mano HandLevelV0(List<Card> cards)
+        {
             if (cards.FindAll(x => x.palo == cards.ElementAt(0).palo).Count == 5)
             {
                 if (MaxCard(cards).valor == 1 && MinCard(cards).valor == 10)

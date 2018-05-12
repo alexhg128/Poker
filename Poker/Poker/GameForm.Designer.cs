@@ -485,7 +485,7 @@
             this.Controls.Add(this.panel1);
             this.ForeColor = System.Drawing.Color.DarkOliveGreen;
             this.Name = "GameForm";
-            this.Text = "GameForm";
+            this.Text = "Poker";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.GameForm_FormClosing);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();

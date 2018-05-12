@@ -43,5 +43,9 @@ namespace Poker
             }
         }
 
+        private void SplashForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
