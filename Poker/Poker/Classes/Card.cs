@@ -28,13 +28,51 @@ namespace Poker.Classes
 
         public static Mano HandLevel(List<Card> cards)
         {
-            if (cards.FindAll(x => x.palo == cards.ElementAt(0).palo).Count == 5)
+            List<int> a = new List<int>();
+            foreach (Card c in cards) { a.Add(c.Valor); }
+            if (a.Distinct().Count() == 2)
+            {
+                List<Card> repetidas = cards.GroupBy(x => x.Valor).Where(x => x.Count() == 4).SelectMany(G => G).ToList();
+
+                if (repetidas.Count() == 4)
+                {
+                    return Mano.Poker;
+                }
+                else
+                {
+                    return Mano.Full;
+                }
+
+            }
+            else if (a.Distinct().Count() == 3)
+            {
+
+                List<Card> repetidas = cards.GroupBy(x => x.Valor).Where(x => x.Count() == 3).SelectMany(G => G).ToList();
+
+                if (repetidas.Count() == 3)
+                {
+                    return Mano.Trio;
+                }
+                else
+                {
+                    return Mano.DoblePareja;
+                }
+
+            }
+            else if (a.Distinct().Count() == 4)
+            {
+
+                return Mano.Pareja;
+
+            }
+            else if (cards.FindAll(x => x.palo == cards.ElementAt(0).palo).Count == 5)
             {
                 if (MaxCard(cards).valor == 1 && MinCard(cards).valor == 10)
                 {
                     return Mano.FlorImperial;
                 }
-                else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4)
+                else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4
+                    || (MaxCard(cards).Valor == 1) && (AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 3)
                 {
                     return Mano.EscaleraColor;
                 }
@@ -43,88 +81,8 @@ namespace Poker.Classes
                     return Mano.Color;
                 }
             }
-            else if ((cards.FindAll(x => x.valor == cards.ElementAt(0).valor).Count == 4) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(1).valor).Count == 4))
-            {
-                return Mano.Poker;
-            }
-            else if ((cards.FindAll(x => x.valor == cards.ElementAt(0).valor).Count == 3) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(1).valor).Count == 3) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(2).valor).Count == 3))
-            {
-                List<Card> kards = cards;
-                Card kard = kards.ElementAt(0);
-                kards.RemoveAll(x => x.valor == kard.valor);
-                if (kards.Count == 3)
-                {
-                    return Mano.Full;
-                }
-                else if (kards.Count == 2)
-                {
-                    if (kards[0].valor == kards[1].valor)
-                    {
-                        return Mano.Full;
-                    }
-                    else
-                    {
-                        return Mano.Trio;
-                    }
-                }
-                else
-                {
-                    return Mano.Trio;
-                }
-            }
-            else if ((cards.FindAll(x => x.valor == cards.ElementAt(0).valor).Count == 2) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(1).valor).Count == 2) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(2).valor).Count == 2) ||
-                (cards.FindAll(x => x.valor == cards.ElementAt(3).valor).Count == 2))
-            {
-                List<Card> kards = cards;
-                Card kard = kards.ElementAt(0);
-                kards.RemoveAll(x => x.valor == kard.valor);
-                if (kards.Count == 4)
-                {
-                    kard = kards.ElementAt(0);
-                    kards.RemoveAll(x => x.valor == kard.valor);
-                    if (kards.Count == 3)
-                    {
-                        return Mano.Pareja;
-                    }
-                    else
-                    {
-                        if (kards.ElementAt(0).valor == kards.ElementAt(1).valor)
-                        {
-                            return Mano.DoblePareja;
-                        }
-                        else
-                        {
-                            return Mano.Pareja;
-                        }
-                    }
-                }
-                else
-                {
-                    kard = kards.ElementAt(0);
-                    kards.RemoveAll(x => x.valor == kard.valor);
-                    if (kards.Count == 1)
-                    {
-                        return Mano.DoblePareja;
-                    }
-                    else
-                    {
-                        if (kards.ElementAt(0).valor == kards.ElementAt(1).valor)
-                        {
-                            return Mano.DoblePareja;
-                        }
-                        else
-                        {
-                            return Mano.Pareja;
-                        }
-                    }
-                }
-            }
-            else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4)
+            else if ((AbsoluteMaxCard(cards).valor - AbsoluteMinCard(cards).valor) == 4
+                || (MaxCard(cards).Valor == 1) && (AbsoluteMaxCard(cards).valor - MinCard(cards).valor) == 3)
             {
                 return Mano.Escalera;
             }

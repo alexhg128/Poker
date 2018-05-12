@@ -126,15 +126,166 @@ namespace Poker.Classes
             List<Player> e = i.FindAll(x => x.HandLevel == i.ElementAt(0).HandLevel);
             if (e.Count > 1)
             {
+                if(e.ElementAt(0).HandLevel == Mano.Pareja || e.ElementAt(0).HandLevel == Mano.DoblePareja || e.ElementAt(0).HandLevel == Mano.Poker)
+                {
+                    Dictionary<Player, int> ps = new Dictionary<Player, int>();
+                    List<int> nums = new List<int>();
+                    foreach (Player o in e)
+                    {
+                        List<Card> repetidas = o.Cards.GroupBy(x => x.Valor).Where(x => x.Count() != 1).SelectMany(G => G).ToList();
+                        
+                            ps.Add(o, repetidas.ElementAt(0).Valor);
+                            nums.Add(repetidas.ElementAt(0).Valor);
+                        
+                    }
+                    if (nums.Count == nums.Distinct().Count())
+                    {
+                        if (nums.Contains(1))
+                        {
+                            ps = ps.OrderBy(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return ps.ElementAt(0).Key;
+                        }
+                        else
+                        {
+                            ps = ps.OrderByDescending(x => x.Value).ToDictionary(t=>t.Key, t=>t.Value);
+                            return ps.ElementAt(0).Key;
+                        }
+                    }
+                }
+                else if(e.ElementAt(0).HandLevel == Mano.Trio)
+                {
+                    Dictionary<Player, int> ps = new Dictionary<Player, int>();
+                    List<int> nums = new List<int>();
+                    foreach (Player o in e)
+                    {
+                        List<Card> repetidas = o.Cards.GroupBy(x => x.Valor).Where(x => x.Count() != 1).SelectMany(G => G).ToList();
+                        ps.Add(o, repetidas.ElementAt(0).Valor);
+                        nums.Add(repetidas.ElementAt(0).Valor);
+                    }
+                    if(nums.Count == nums.Distinct().Count())
+                    {
+                        if(nums.Contains(1))
+                        {
+                            ps = ps.OrderBy(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return ps.ElementAt(0).Key;
+                        }
+                        else
+                        {
+                            ps = ps.OrderByDescending(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return ps.ElementAt(0).Key;
+                        }
+                    }
+                }
+                else if(e.ElementAt(0).HandLevel == Mano.Full)
+                {
+                    Dictionary<Player, int> trios = new Dictionary<Player, int>();
+                    List<int> tr = new List<int>();
+                    List<int> dos = new List<int>();
+                    Dictionary<Player, int> dobles = new Dictionary<Player, int>();
+                    foreach (Player o in e)
+                    {
+                        List<Card> repetidas = o.Cards.GroupBy(x => x.Valor).Where(x => x.Count() != 1).SelectMany(G => G).ToList();
+                        trios.Add(o, repetidas.ElementAt(0).Valor);
+                        tr.Add(repetidas.ElementAt(0).Valor);
+
+                        List<Card> repetidas2 = o.Cards.GroupBy(x => x.Valor).Where(x => x.Count() != 1).SelectMany(G => G).ToList();
+                        dobles.Add(o, repetidas2.ElementAt(0).Valor);
+                        dos.Add(repetidas2.ElementAt(0).Valor);
+                    }
+                    if (tr.Count == tr.Distinct().Count())
+                    {
+                        if (tr.Contains(1))
+                        {
+                            trios = trios.OrderBy(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return trios.ElementAt(0).Key;
+                        }
+                        else
+                        {
+                            trios = trios.OrderByDescending(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return trios.ElementAt(0).Key;
+                        }
+                    }
+                    else if (dos.Count == dos.Distinct().Count())
+                    {
+                        if (dos.Contains(1))
+                        {
+                            dobles = dobles.OrderBy(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return dobles.ElementAt(0).Key;
+                        }
+                        else
+                        {
+                            dobles = dobles.OrderByDescending(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                            return dobles.ElementAt(0).Key;
+                        }
+                    }
+
+                } else if (e.ElementAt(0).HandLevel == Mano.FlorImperial)
+                {
+                    while(true)
+                    {
+                        Dictionary<Player, int> ps = new Dictionary<Player, int>();
+                        List<int> nums = new List<int>();
+                        foreach(Player o in e)
+                        {
+                            Card c = deck.GetCard();
+                            nums.Add(c.Valor);
+                            ps.Add(o, c.Valor);
+                        }
+                        if (nums.Count == nums.Distinct().Count())
+                        {
+                            if (nums.Contains(1))
+                            {
+                                ps = ps.OrderBy(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                                return ps.ElementAt(0).Key;
+                            }
+                            else
+                            {
+                                ps = ps.OrderByDescending(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                                return ps.ElementAt(0).Key;
+                            }
+                        }
+                    }
+                }
+
                 List<int> a = new List<int>();
                 foreach(Player o in e)
                 {
                     a.Add(Card.MaxCardDes(o.Cards).Valor);
                 }
-                a = a.OrderByDescending(x => x).ToList();
+                if (a.Contains(1))
+                {
+                    a = a.OrderBy(x => x).ToList();
+                }
+                else
+                {
+                    a = a.OrderByDescending(x => x).ToList();
+                }
                 if(a.FindAll(x => x == a.ElementAt(0)).Count > 1)
                 {
-                    return null;
+                    while (true)
+                    {
+                        Dictionary<Player, int> ps = new Dictionary<Player, int>();
+                        List<int> nums = new List<int>();
+                        foreach (Player o in e)
+                        {
+                            Card c = deck.GetCard();
+                            nums.Add(c.Valor);
+                            ps.Add(o, c.Valor);
+                        }
+                        if (nums.Count == nums.Distinct().Count())
+                        {
+                            if (nums.Contains(1))
+                            {
+                                ps = ps.OrderBy(x => x.Value).ToDictionary(t=>t.Key, t=>t.Value);
+                                return ps.ElementAt(0).Key;
+                            }
+                            else
+                            {
+                                ps = ps.OrderByDescending(x => x.Value).ToDictionary(t => t.Key, t => t.Value);
+                                return ps.ElementAt(0).Key;
+                            }
+                        }
+                    }
                 }
                 else
                 {

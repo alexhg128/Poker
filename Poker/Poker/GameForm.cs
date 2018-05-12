@@ -56,7 +56,6 @@ namespace Poker
             button1.Visible = false;
             button2.Visible = false;
             master = new Master(this, players);
-            master.Next();
         }
 
         public void HideComponents(int i)
@@ -121,7 +120,7 @@ namespace Poker
         {
             if (player != null)
             {
-                label1.Text = player.Name + " Ha ganado la partida";
+                label1.Text = player.Name + " ha ganado la partida";
                 switch (player.HandLevel)
                 {
                     case Mano.CartaAlta:
@@ -375,5 +374,9 @@ namespace Poker
             SetArgs(p);
         }
 
+        private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            Application.Exit();
+        }
     }
 }
