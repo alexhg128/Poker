@@ -59,6 +59,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>32290795_211311179470975_1144850367704465408_n_Y6K_icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -291,6 +294,21 @@
       <ProductName>.NET Framework 3.5 SP1</ProductName>
       <Install>false</Install>
     </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\19245__deathpie__shuffle.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\audioclip-1526145325 %281%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\When The Saints Go Marching In New Orleans style jazz funeral procession.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\LA Noire OST - 23 - Main Theme %28Piano Trumpet%29.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="32290795_211311179470975_1144850367704465408_n_Y6K_icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

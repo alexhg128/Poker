@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Poker
 {
@@ -17,11 +18,16 @@ namespace Poker
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
-            GameForm gameForm = new GameForm();
-            SplashForm splashForm = new SplashForm(gameForm);
+            var soundPlayer = new SoundPlayer(Properties.Resources.music);
+
+            GameForm gameForm = new GameForm(soundPlayer);
+            SplashForm splashForm = new SplashForm(gameForm, soundPlayer);
             gameForm.initArgs(splashForm);
+            
 
             Application.Run(splashForm);
+
+
         }
     }
 }

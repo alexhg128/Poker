@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Media;
 
 namespace Poker.Classes
 {
@@ -97,6 +99,9 @@ namespace Poker.Classes
                 Card.UpdateImage(bundle.c4, null);
                 Card.UpdateImage(bundle.c5, null);
             }
+
+           // var soundPlayer = new SoundPlayer(Properties.Resources.sound);
+           // soundPlayer.Play();
 
         }
 

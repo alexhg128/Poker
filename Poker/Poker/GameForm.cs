@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using Poker.Classes;
+using System.Media;
 
 namespace Poker
 {
@@ -17,10 +18,13 @@ namespace Poker
         SplashForm splashForm;
         Master master;
         List<string> p;
+        SoundPlayer sp;
 
-        public GameForm()
+        public GameForm(SoundPlayer sp)
         {
             InitializeComponent();
+            this.sp = sp;
+            
         }
 
 
@@ -377,6 +381,18 @@ namespace Poker
         private void GameForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             Application.Exit();
+        }
+
+        private void GameForm_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void GameForm_Shown(object sender, EventArgs e)
+        {
+            sp.Stream = Properties.Resources.music;
+            sp.Stop();
+            sp.PlayLooping();
         }
     }
 }
